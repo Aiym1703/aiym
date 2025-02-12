@@ -27,16 +27,23 @@ public class ExamService {
     public Exam createExam(Exam exam) {
         return examRepository.save(exam);
     }
-
     public Exam updateExam(Long id, Exam newData) {
-        return examRepository.findById(id)
-                .map(existing -> {
-                    existing.setTitle(newData.getTitle());
-                    // Если нужно обновлять связи
-                    return examRepository.save(existing);
-                })
-                .orElseThrow(() -> new RuntimeException("Exam not found with id=" + id));
+        try {
+            Optional<Exam> examOptional = examRepository.findById(id);
+
+            if (examOptional.isPresent()) {
+                Exam existing = examOptional.get();
+                existing.setTitle(newData.getTitle());
+                return examRepository.save(existing);
+            } else {
+                throw new RuntimeException("Exam not found with id=" + id);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error updating exam: " + e.getMessage());
+        }
     }
+
+
 
     public void deleteExam(Long id) {
         examRepository.deleteById(id);

@@ -42,4 +42,5 @@ public class CandidateService {
     public void deleteCandidate(Long id) {
         candidateRepository.deleteById(id);
     }
+
 }

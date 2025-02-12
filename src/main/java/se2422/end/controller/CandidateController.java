@@ -23,11 +23,17 @@ public class CandidateController {
     }
 
     // GET by ID
+
     @GetMapping("/{id}")
     public Candidate getCandidateById(@PathVariable Long id) {
-        return candidateService.getCandidateById(id)
-                .orElseThrow(() -> new RuntimeException("Candidate not found with id=" + id));
+        try {
+            return candidateService.getCandidateById(id)
+                    .orElseThrow(() -> new RuntimeException("Candidate not found with id=" + id));
+        } catch (Exception e) {
+            throw new RuntimeException("Error retrieving candidate: " + e.getMessage());
+        }
     }
+
 
     // CREATE
     @PostMapping
@@ -46,4 +52,8 @@ public class CandidateController {
     public void deleteCandidate(@PathVariable Long id) {
         candidateService.deleteCandidate(id);
     }
+
+
+
+
 }
