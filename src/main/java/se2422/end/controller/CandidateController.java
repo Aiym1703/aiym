@@ -35,6 +35,7 @@ public class CandidateController {
     }
 
 
+
     // CREATE
     @PostMapping
     public Candidate createCandidate(@RequestBody Candidate candidate) {
